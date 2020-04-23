@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
-class Login extends Component {
-  render() {
+const Login = () => {
     return (
       <div className="row p-5 mt-5">
         <div className="col-lg-7 col-sm-12">
@@ -51,6 +50,7 @@ class Login extends Component {
                   </div>
                 </div>
                 <div className="form-check mt-2 mb-3">
+                <input type="checkbox" class="form-check-input" />
                   <label class="form-check-label" for="exampleCheck1"><strong>Remember me</strong></label>
                 </div>
                 <div className="form-group">
@@ -61,7 +61,7 @@ class Login extends Component {
                 </button>
                 </div>
                 <p className="text-center">
-                  <a id="navigate_signup" href="sign-up">
+                  <a id="navigate_signup" href="">
                     Interested in Outreach? Click to register for next event
                 </a>
                 </p>
@@ -72,5 +72,4 @@ class Login extends Component {
       </div>
     );
   }
-}
 export default Login;
