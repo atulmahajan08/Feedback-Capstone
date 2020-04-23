@@ -1,0 +1,2 @@
+java �jar swagger-codegen-cli-3.0.16.jar generate -i swagger.yaml --api com.cts.feedback.event.apiconfiguration --model-package com.cts.feedback.event.entity --group-id com.cts.feedback.event. --artifact-id FeedbackEventService --artifact-version 0.0.1-SNAPSHOT --library spring-boot --lang spring -Djava8=true,springBootVersion=2.2.4.RELEASE  
+     

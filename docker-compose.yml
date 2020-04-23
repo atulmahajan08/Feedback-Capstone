@@ -1,0 +1,105 @@
+version: '3'
+services:
+  fb-mysql:
+    image: mysql:8.0.18
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - d:/fbdb:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d
+ 
+  FeedbackLoginUserService:
+    image: FeedbackLoginUserService-app
+    build: Feedback Capstone/FeedbackLoginUserService/.
+    ports:
+      - 8001:8001
+    depends_on:
+      - fb-mysql
+      - FeedbackEurekaServer
+
+    links:
+      - fb-mysql
+      - FeedbackEurekaServer
+      
+  FeedbackExcelDataService:
+    image: FeedbackExcelDataService
+    build: Feedback-Capstone/FeedbackExcelDataService/.
+    ports:
+      - 8002:8002
+    depends_on:
+      - fb-mysql
+      - FeedbackEurekaServer
+
+    links:
+      - fb-mysql
+      - FeedbackEurekaServer
+      
+  FeedbackEventService:
+    image: FeedbackEventService-app
+    build: Feedback/FeedbackEventService/.
+    ports:
+      - 8003:8003
+    depends_on:
+      - fb-mysql
+      - FeedbackEurekaServer
+
+    links:
+      - fb-mysql
+      - FeedbackEurekaServer
+     
+  FeedbackFeedbackQuestionService:
+    image: FeedbackFeedbackQuestionService-app
+    build: Feedback/FeedbackFeedbackQuestionService/.
+    ports:
+      - 8004:8004
+    depends_on:
+      - fb-mysql
+      - FeedbackEurekaServer
+
+    links:
+      - fb-mysql
+      - FeedbackEurekaServer
+      
+  FeeedbackEmailService:
+    image: FeeedbackEmailService-app
+    build: Feedback/FeeedbackEmailService/.
+    ports:
+      - 8005:8005
+    depends_on:
+      - fb-mysql
+      - FeedbackEurekaServer
+
+    links:
+      - fb-mysql
+      - FeedbackEurekaServer
+      
+  eureka-discovery-server:
+    image: FeedbackEurekaServer-app
+    build: Feedback/FeedbackEurekaServer/.
+    ports:
+      - 8761:8761
+      
+  FeedbackZuulServer:
+    image: FeedbackZuulServer
+    build: Feedback/FeedbackZuulServer/.
+    ports:
+      - 8000:8000
+    depends_on:
+      - FeedbackLoginUserService
+      - FeedbackEventService
+      - FeedbackFeedbackQuestionService
+      
+    links:
+      - FeedbackLoginUserService
+      - FeedbackEventService
+      - FeedbackFeedbackQuestionService
+     
+  Feedback-Management-system:
+    image: FeedbackCapstone
+    build: Feedback-UI/FeedbackCapstone/.
+    ports:
+      - 3000:80
+    links:
+      - FeedbackZuulServer 
