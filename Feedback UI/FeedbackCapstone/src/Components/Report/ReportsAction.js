@@ -1,7 +1,29 @@
-import React, { Component } from 'react';
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const ReportAction = () => {
+	
+    const [showLoading, setShowLoading] = useState(true)
+    const [sendMailStatus, setSendMailStatus] = useState(false);
+
+    const sendMail = () => {
+        console.log("inside send mail");
+        if (window.confirm('Mail has been sent Successfully!!!')) {
+        setShowLoading(true);
+        axios("/FeedbackEmailService/sendEmail", 
+        { headers: { 'Content-Type': 'application/json'}})
+        .then(
+            res => {
+                console.log("res", res);
+                if (res.data == "success") {
+                    setSendMailStatus(true);
+                }
+                setShowLoading(false);
+            }
+        );
+      }
+    }
+
     return (
     <div >
         <div className="py-2 text-white" style={{ backgroundColor: '#0000b3' }}> <h5 className="font-weight-bold ml-3">Actions</h5></div>
